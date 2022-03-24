@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<title></title>
+			
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script>
+		
+		function fWertetabelle(){
+			
+		var vAusgabe="";
+        var vGrundgebuehrA;
+        var vGrundgebuehrB;
+        var vKostenProMinuteA;
+        var vKostenProMinuteB;
+        var vKostenA;
+        var vKostenB;
+        var vMinutenanzahl=0;
+        var vKritischeMinutenAnzahl;
+		var vAngebot;
+		
+			
+		vGrundgebuehrA = parseFloat(document.getElementById("idGrundgebuehrA").value);
+        vGrundgebuehrB = parseFloat(document.getElementById("idGrundgebuehrB").value);
+        vKostenProMinuteA = parseFloat(document.getElementById("idKostenProMinuteA").value);
+		vKostenProMinuteB =	parseFloat(document.getElementById("idKostenProMinuteB").value);
+			
+		
+
+		vAusgabe=vAusgabe +"<table border=1>";
+		vAusgabe=vAusgabe +"<tr><th>Telefoneinheiten</th><th>GesamtkostenA</th><th>GesamtkostenB</th><th>Besseres Angebot?</th></tr>";
+		
+        while(vMinutenanzahl<=200) {
+           vKostenA = vMinutenanzahl * vKostenProMinuteA + vGrundgebuehrA;
+           vKostenB = vMinutenanzahl * vKostenProMinuteB + vGrundgebuehrB;
+           
+		   if (vKostenA<vKostenB) {
+				vAngebot="Anbieter A ist günstiger!"
+			}
+			else if (vKostenA>vKostenB) {
+				vAngebot="Anbieter B ist günstiger!"
+			}
+			
+			if(vKostenA==vKostenB){
+			vAngebot="Kritische Menge erreicht!";
+			vAusgabe=vAusgabe + "<tr bgcolor=green><td>" + vMinutenanzahl + "</td><td>" + vKostenA.toFixed(2) + "</td><td>" + vKostenB.toFixed(2) + "</td><td>" + vAngebot + "</td></tr>"; 
+		}
+			else{
+				
+				vAusgabe=vAusgabe +  "<tr><td>" + vMinutenanzahl + "</td><td>" + vKostenA.toFixed(2) + "</td><td>" + vKostenB.toFixed(2) + "</td><td>" + vAngebot + "</td></tr>"; 
+			
+		}
+			
+			vMinutenanzahl = vMinutenanzahl +10;
+        }
+
+        
+
+        vAusgabe=vAusgabe +"</table>";
+		vKritischeMinutenAnzahl = (vGrundgebuehrA - vGrundgebuehrB) / (vKostenProMinuteB-vKostenProMinuteA);
+		vAusgabe=vAusgabe +"<br>"+ "Kritische Minutenanzahl: " + vKritischeMinutenAnzahl;
+
+		document.getElementById("idAusgabe").innerHTML = vAusgabe;
+        }  	
+		</script></head>
+        
+
+	<body>
+		<h2> Telefonanbietervergleich </h2>
+
+        Grundgebühr Anbieter A: <input id="idGrundgebuehrA" type="text" size = "7" value="10.00"> €<br><br>
+		Kosten pro tel. Minute A: <input id="idKostenProMinuteA" type="text" size = "7" value="0.05"> €<br><br> 
+        Grundgebühr Anbieter B: <input id="idGrundgebuehrB" type="text" size = "7" value="5.00"> €<br><br>
+		Kosten pro tel. Minute B: <input id="idKostenProMinuteB" type="text" size = "7" value="0.10"> €<br><br>
+		<button onClick="fWertetabelle();">Kalkulieren!</button><br /><br />
+        <div id="idAusgabe"></div>
+	</body>
+</html>
